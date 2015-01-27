@@ -2,14 +2,14 @@
 require File.expand_path('../lib/data_mapper/timestamps/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.name          = "dm-timestamps"
+  gem.name          = "ardm-timestamps"
   gem.version       = DataMapper::Timestamps::VERSION
 
-  gem.authors     = [ 'Foy Savas', 'Dan Kubb' ]
-  gem.email       = [ "dan.kubb@gmail.com" ]
-  gem.summary     = "DataMapper plugin for magical timestamps"
-  gem.description = gem.summary
-  gem.homepage    = "http://datamapper.org"
+  gem.authors     = [ 'Martin Emde', 'Foy Savas', 'Dan Kubb' ]
+  gem.email       = [ 'me@martinemde.com', "dan.kubb@gmail.com" ]
+  gem.summary     = "Ardm fork of dm-timestamps"
+  gem.description = "DataMapper plugin for magical timestamps"
+  gem.homepage    = "https://github.com/ar-dm/dm-timestamps"
   gem.license     = 'MIT'
 
   gem.files            = `git ls-files`.split("\n")
@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
   gem.extra_rdoc_files = %w[LICENSE README.rdoc]
   gem.require_paths = [ "lib" ]
 
-  gem.add_runtime_dependency 'dm-core', '~> 1.2'
+  gem.add_runtime_dependency 'ardm-core', '~> 1.2'
 
   gem.add_development_dependency 'rake',  '~> 0.9'
   gem.add_development_dependency 'rspec', '~> 1.3'
