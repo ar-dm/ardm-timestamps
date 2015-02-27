@@ -4,7 +4,7 @@ describe 'DataMapper::Timestamp' do
 
   supported_by :all do
 
-    describe "Timestamp (shared behavior)", :shared => true do
+    RSpec.shared_examples_for "Timestamp (shared behavior)", :shared => true do
       it "should not set the created_at/on fields if they're already set" do
         green_smoothie = GreenSmoothie.new(:name => 'Banana')
         time = (DateTime.now - 100)
@@ -126,7 +126,7 @@ describe 'DataMapper::Timestamp' do
         end
       end
 
-      it_should_behave_like "Timestamp (shared behavior)"
+      include_examples "Timestamp (shared behavior)"
     end
 
     describe "implicit property declaration" do
@@ -144,7 +144,7 @@ describe 'DataMapper::Timestamp' do
         end
       end
 
-      it_should_behave_like "Timestamp (shared behavior)"
+      include_examples "Timestamp (shared behavior)"
     end
 
     describe "timestamps helper" do
