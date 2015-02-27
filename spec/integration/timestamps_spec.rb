@@ -11,73 +11,73 @@ describe 'DataMapper::Timestamp' do
         green_smoothie.created_at = time
         green_smoothie.created_on = time
         green_smoothie.save
-        green_smoothie.created_at.should == time
-        green_smoothie.created_on.should == time
-        green_smoothie.created_at.should be_a_kind_of(DateTime)
-        green_smoothie.created_on.should be_a_kind_of(Date)
+        expect(green_smoothie.created_at).to eq(time)
+        expect(green_smoothie.created_on).to eq(time)
+        expect(green_smoothie.created_at).to be_a_kind_of(DateTime)
+        expect(green_smoothie.created_on).to be_a_kind_of(Date)
       end
 
       it "should set the created_at/on fields on creation" do
         green_smoothie = GreenSmoothie.new(:name => 'Banana')
-        green_smoothie.created_at.should be_nil
-        green_smoothie.created_on.should be_nil
+        expect(green_smoothie.created_at).to be_nil
+        expect(green_smoothie.created_on).to be_nil
         green_smoothie.save
-        green_smoothie.created_at.should be_a_kind_of(DateTime)
-        green_smoothie.created_on.should be_a_kind_of(Date)
+        expect(green_smoothie.created_at).to be_a_kind_of(DateTime)
+        expect(green_smoothie.created_on).to be_a_kind_of(Date)
       end
 
       it "should not alter the create_at/on fields on model updates" do
         green_smoothie = GreenSmoothie.new(:id => 2, :name => 'Berry')
-        green_smoothie.created_at.should be_nil
-        green_smoothie.created_on.should be_nil
+        expect(green_smoothie.created_at).to be_nil
+        expect(green_smoothie.created_on).to be_nil
         green_smoothie.save
         original_created_at = green_smoothie.created_at
         original_created_on = green_smoothie.created_on
         green_smoothie.name = 'Strawberry'
         green_smoothie.save
-        green_smoothie.created_at.should eql(original_created_at)
-        green_smoothie.created_on.should eql(original_created_on)
+        expect(green_smoothie.created_at).to eql(original_created_at)
+        expect(green_smoothie.created_on).to eql(original_created_on)
       end
 
       it "should set the updated_at/on fields on creation and on update" do
         green_smoothie = GreenSmoothie.new(:name => 'Mango')
-        green_smoothie.updated_at.should be_nil
-        green_smoothie.updated_on.should be_nil
+        expect(green_smoothie.updated_at).to be_nil
+        expect(green_smoothie.updated_on).to be_nil
         green_smoothie.save
-        green_smoothie.updated_at.should be_a_kind_of(DateTime)
-        green_smoothie.updated_on.should be_a_kind_of(Date)
+        expect(green_smoothie.updated_at).to be_a_kind_of(DateTime)
+        expect(green_smoothie.updated_on).to be_a_kind_of(Date)
         original_updated_at = green_smoothie.updated_at
         original_updated_on = green_smoothie.updated_on
         time_tomorrow = DateTime.now + 1
         date_tomorrow = Date.today + 1
-        DateTime.stub!(:now).and_return { time_tomorrow }
-        Date.stub!(:today).and_return { date_tomorrow }
+        allow(DateTime).to receive(:now) { time_tomorrow }
+        allow(Date).to receive(:today) { date_tomorrow }
         green_smoothie.name = 'Cranberry Mango'
         green_smoothie.save
-        green_smoothie.updated_at.should_not eql(original_updated_at)
-        green_smoothie.updated_on.should_not eql(original_updated_on)
-        green_smoothie.updated_at.should eql(time_tomorrow)
-        green_smoothie.updated_on.should eql(date_tomorrow)
+        expect(green_smoothie.updated_at).not_to eql(original_updated_at)
+        expect(green_smoothie.updated_on).not_to eql(original_updated_on)
+        expect(green_smoothie.updated_at).to eql(time_tomorrow)
+        expect(green_smoothie.updated_on).to eql(date_tomorrow)
       end
 
       it "should only set the updated_at/on fields on dirty objects" do
         green_smoothie = GreenSmoothie.new(:name => 'Mango')
-        green_smoothie.updated_at.should be_nil
-        green_smoothie.updated_on.should be_nil
+        expect(green_smoothie.updated_at).to be_nil
+        expect(green_smoothie.updated_on).to be_nil
         green_smoothie.save
-        green_smoothie.updated_at.should be_a_kind_of(DateTime)
-        green_smoothie.updated_on.should be_a_kind_of(Date)
+        expect(green_smoothie.updated_at).to be_a_kind_of(DateTime)
+        expect(green_smoothie.updated_on).to be_a_kind_of(Date)
         original_updated_at = green_smoothie.updated_at
         original_updated_on = green_smoothie.updated_on
         time_tomorrow = DateTime.now + 1
         date_tomorrow = Date.today + 1
-        DateTime.stub!(:now).and_return { time_tomorrow }
-        Date.stub!(:today).and_return { date_tomorrow }
+        allow(DateTime).to receive(:now) { time_tomorrow }
+        allow(Date).to receive(:today) { date_tomorrow }
         green_smoothie.save
-        green_smoothie.updated_at.should_not eql(time_tomorrow)
-        green_smoothie.updated_on.should_not eql(date_tomorrow)
-        green_smoothie.updated_at.should eql(original_updated_at)
-        green_smoothie.updated_on.should eql(original_updated_on)
+        expect(green_smoothie.updated_at).not_to eql(time_tomorrow)
+        expect(green_smoothie.updated_on).not_to eql(date_tomorrow)
+        expect(green_smoothie.updated_at).to eql(original_updated_at)
+        expect(green_smoothie.updated_on).to eql(original_updated_on)
       end
 
       describe '#touch' do
@@ -86,13 +86,13 @@ describe 'DataMapper::Timestamp' do
 
           time_tomorrow = DateTime.now + 1
           date_tomorrow = Date.today + 1
-          DateTime.stub!(:now).and_return { time_tomorrow }
-          Date.stub!(:today).and_return { date_tomorrow }
+          allow(DateTime).to receive(:now) { time_tomorrow }
+          allow(Date).to receive(:today) { date_tomorrow }
 
           green_smoothie.touch
 
-          green_smoothie.updated_at.should eql(time_tomorrow)
-          green_smoothie.updated_on.should eql(date_tomorrow)
+          expect(green_smoothie.updated_at).to eql(time_tomorrow)
+          expect(green_smoothie.updated_on).to eql(date_tomorrow)
         end
 
         it 'should not update the created_at/on fields' do
@@ -103,8 +103,8 @@ describe 'DataMapper::Timestamp' do
 
           green_smoothie.touch
 
-          green_smoothie.created_at.should equal(original_created_at)
-          green_smoothie.created_on.should equal(original_created_on)
+          expect(green_smoothie.created_at).to equal(original_created_at)
+          expect(green_smoothie.created_on).to equal(original_created_on)
         end
       end
     end
@@ -156,40 +156,40 @@ describe 'DataMapper::Timestamp' do
         end
 
         it "should provide #timestamps" do
-          @klass.should respond_to(:timestamps)
+          expect(@klass).to respond_to(:timestamps)
         end
 
         it "should set the *at properties" do
           @klass.timestamps :at
 
-          @klass.properties.should be_named(:created_at)
-          @klass.properties[:created_at].should be_kind_of(DataMapper::Property::DateTime)
-          @klass.properties.should be_named(:updated_at)
-          @klass.properties[:updated_at].should be_kind_of(DataMapper::Property::DateTime)
+          expect(@klass.properties).to be_named(:created_at)
+          expect(@klass.properties[:created_at]).to be_kind_of(DataMapper::Property::DateTime)
+          expect(@klass.properties).to be_named(:updated_at)
+          expect(@klass.properties[:updated_at]).to be_kind_of(DataMapper::Property::DateTime)
         end
 
         it "should set the *on properties" do
           @klass.timestamps :on
 
-          @klass.properties.should be_named(:created_on)
-          @klass.properties[:created_on].should be_kind_of(DataMapper::Property::Date)
-          @klass.properties.should be_named(:updated_on)
-          @klass.properties[:updated_on].should be_kind_of(DataMapper::Property::Date)
+          expect(@klass.properties).to be_named(:created_on)
+          expect(@klass.properties[:created_on]).to be_kind_of(DataMapper::Property::Date)
+          expect(@klass.properties).to be_named(:updated_on)
+          expect(@klass.properties[:updated_on]).to be_kind_of(DataMapper::Property::Date)
         end
 
         it "should set multiple properties" do
           @klass.timestamps :created_at, :updated_on
 
-          @klass.properties.should be_named(:created_at)
-          @klass.properties.should be_named(:updated_on)
+          expect(@klass.properties).to be_named(:created_at)
+          expect(@klass.properties).to be_named(:updated_on)
         end
 
         it "should fail on unknown property name" do
-          lambda { @klass.timestamps :wowee }.should raise_error(DataMapper::Timestamp::InvalidTimestampName)
+          expect { @klass.timestamps :wowee }.to raise_error(DataMapper::Timestamp::InvalidTimestampName)
         end
 
         it "should fail on empty arguments" do
-          lambda { @klass.timestamps }.should raise_error(ArgumentError)
+          expect { @klass.timestamps }.to raise_error(ArgumentError)
         end
       end
     end
